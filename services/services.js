@@ -1,4 +1,4 @@
-
+const {generateToken} = require('../middlewares/jwt')
 const Login = async(req,res)=>{
     try{
         const {username , password } = req.body
@@ -6,9 +6,11 @@ const Login = async(req,res)=>{
         if(!findUser){
         return  res.status(200).send({status:1,message:"User Does not exist"})
         }
-        if(password != findUser.password){
+        if(password !== findUser.password){
             return res.status(200).send({status:1,message:"Password is Incorrect"})
         }
+        let authToken = generateToken.authToken({ _id: findUser._id.toString(), });
+        findUser.authToken = authToken
         return res.status(200).send({status:1,message:"user is fine" , data:findUser})
     }catch(error){
         console.log("Err" ,error)
@@ -40,9 +42,9 @@ const Signup = async(req,res)=>{
     try {
         let category = req.query.category 
         const url = 'https://dummyjson.com/products';
-            const response = await fetch(url);
-            const jsonResponse = await response.json();
-            console.log(jsonResponse);
+        const response = await fetch(url);
+        const jsonResponse = await response.json();
+        console.log(jsonResponse);
         if(!category){ 
            return  res.status(200).send({status:1,message:"data",payload:jsonResponse})
         }
@@ -55,5 +57,6 @@ const Signup = async(req,res)=>{
 
 module.exports = {
     allProducts:AllProducts,
-
+    Login:Login,
+    signup:Signup
 }
