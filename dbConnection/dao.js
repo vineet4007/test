@@ -30,5 +30,5 @@ process.on("SIGINT", () => {
 });
 
 module.exports = {
-    // user: require("./models/userModel")
+     user: require("../models/userModel")
 }

@@ -2,9 +2,11 @@ const express = require("express");
 const app = express();
 const http = require('http').createServer(app)
 // require("./dbConnection/dao");
-const router = require('./routes/routes')
+const router = require('./routes')
+const bodyParser = require('body-parser')
 require('dotenv').config()
-
+app.use(bodyParser.json()) 
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(router)
 
 let listener = http.listen(process.env.PORT, function (err, success) {
